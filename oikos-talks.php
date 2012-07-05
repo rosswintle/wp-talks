@@ -298,8 +298,7 @@ function get_oikos_talks ($attrs) {
 /* 
  * *** TALKS OPTIONS ***
  *
- * The following allow an extra meta box for normal pages for selecting the image to go in 
- * a page header
+ * The following allows an extra meta box for talks to select a piece of media for the Audio URL 
  *
  */
 
