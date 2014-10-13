@@ -42,6 +42,7 @@ a.oikos-talks-more:hover {
 .oikos-talks-download{
 	font-size: 12px;
 	position: relative; /* Allows position: absolute on the note */
+	top: 60px;
 }
 .oikos-talks-download-note{
 	display: none;
