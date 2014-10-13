@@ -151,9 +151,16 @@ function oikos_talks_format_talk ( $audio_url, $content, $speakers, $services, $
 						<div class="oikos-talks-audio-player">
 						<?php
 							if ($audio_url) :
-								if (function_exists("insert_audio_player")) :
-									insert_audio_player("[audio:$audio_url]");
-								endif;
+								global $wp_version;
+								$version_bits = explode('.', $wp_version);
+								// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
+								if ($version_bits[0] >= 3 && $version_bits[1] >= 6) {
+									echo do_shortcode('[audio src="' . $audio_url . '"]');
+								} else {
+									if (function_exists("insert_audio_player")) :
+										insert_audio_player("[audio:$audio_url]");
+									endif;
+								}
 						?>
 								<div class="oikos-talks-download"><a href="<?php echo $audio_url; ?>">Download talk</a></div>
 						<?php
@@ -248,9 +255,16 @@ function get_oikos_talks ($attrs) {
 						<?php
 							$audio_url = get_post_meta($post->ID, '_oikos_talks_audio_url', true);
 							if ($audio_url) :
-								if (function_exists("insert_audio_player")) :
-									insert_audio_player("[audio:$audio_url]");
-								endif;
+								global $wp_version;
+								$version_bits = explode('.', $wp_version);
+								// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
+								if ($version_bits[0] >= 3 && $version_bits[1] >= 6) {
+									echo do_shortcode('[audio src="' . $audio_url . '"]');
+								} else {								
+									if (function_exists("insert_audio_player")) :
+										insert_audio_player("[audio:$audio_url]");
+									endif;
+								}
 						?>
 								<div class="oikos-talks-download"><a href="<?php echo $audio_url; ?>">Download talk</a></div>
 						<?php
@@ -383,12 +397,17 @@ add_action('save_post',  'oikos_talks_save_meta_data');
  * 'admin_notices' action.
  */
 function oikos_talks_check_audio_plugin () {
-	if ( ! function_exists('insert_audio_player') ) {
+	global $wp_version;
+	$version_bits = explode('.', $wp_version);
+	// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
+	if (! ($version_bits[0] >= 3 && $version_bits[1] >= 6)) {
+		if ( ! function_exists('insert_audio_player') ) {
 ?>
-		<div id="message" class="error">
-			<p>The Oikos Talks plugin can't find the Audio Player Plugin. Audio Player needs to be installed and activated for Oikos Talks to work. Try <a href="<?php bloginfo( 'wpurl'); ?>/wp-admin/plugin-install.php?tab=search&type=term&s=audio+player">this plugin search</a></p>
-		</div>
+			<div id="message" class="error">
+				<p>The Oikos Talks plugin can't find the Audio Player Plugin. Audio Player needs to be installed and activated for Oikos Talks to work. Try <a href="<?php bloginfo( 'wpurl'); ?>/wp-admin/plugin-install.php?tab=search&type=term&s=audio+player">this plugin search</a></p>
+			</div>
 <?php 
+		}
 	}
 }
 
