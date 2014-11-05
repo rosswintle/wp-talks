@@ -159,7 +159,7 @@ function oikos_talks_format_talk ( $audio_url, $content, $speakers, $services, $
 								global $wp_version;
 								$version_bits = explode('.', $wp_version);
 								// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
-								if ($version_bits[0] >= 3 && $version_bits[1] >= 6) {
+								if ($version_bits >= 4 || ($version_bits[0] == 3 && $version_bits[1] >= 6)) {
 									echo do_shortcode('[audio src="' . $audio_url . '"]');
 								} else {
 									if (function_exists("insert_audio_player")) :
@@ -263,7 +263,7 @@ function get_oikos_talks ($attrs) {
 								global $wp_version;
 								$version_bits = explode('.', $wp_version);
 								// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
-								if ($version_bits[0] >= 3 && $version_bits[1] >= 6) {
+								if ($version_bits[0] >= 4 || ($version_bits[0] == 3 && $version_bits[1] >= 6)) {
 									echo do_shortcode('[audio src="' . $audio_url . '"]');
 								} else {								
 									if (function_exists("insert_audio_player")) :
@@ -405,7 +405,7 @@ function oikos_talks_check_audio_plugin () {
 	global $wp_version;
 	$version_bits = explode('.', $wp_version);
 	// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
-	if (! ($version_bits[0] >= 3 && $version_bits[1] >= 6)) {
+	if (! ($version_bits[0] >= 4 || ($version_bits[0] == 3 && $version_bits[1] >= 6))) {
 		if ( ! function_exists('insert_audio_player') ) {
 ?>
 			<div id="message" class="error">
