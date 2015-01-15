@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Oikos Talks
-Plugin URI: http://oikos.org.uk/plugins/oikos-talks
+Plugin Name: WP Talks
+Plugin URI: http://oikos.org.uk/plugins/wp-talks
 Description: Provides an interface for managing audio files of talks with options to categorise by service (intended for churches) and speaker, and to apply multiple "topics" tags.
 Version: 0.2.3
 Author: Ross Wintle/Oikos
@@ -17,9 +17,9 @@ Version history:
 */
 
 
-function oikos_talks_setup () {
+function wp_talks_setup () {
 	// Add a custom post type for talks with some custom taxonomies too
-	$oikos_talks_speaker_labels = array (
+	$wp_talks_speaker_labels = array (
 		'name' => 'Speakers',
 		'singular_name' => 'Speaker',
 		'search_items' => 'Search Speakers',
@@ -35,9 +35,9 @@ function oikos_talks_setup () {
 		'add_or_remove_items' => 'Add or Remove Speakers',
 		'choose_from_most_used' => 'Choose from most frequent speakers'
 		);
-	register_taxonomy( 'oikos_talks_speaker', 'oikos_talks', array( 'labels' => $oikos_talks_speaker_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/speaker' ) ) );
+	register_taxonomy( 'wp_talks_speaker', 'wp_talks', array( 'labels' => $wp_talks_speaker_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/speaker' ) ) );
 
-	$oikos_talks_service_labels = array (
+	$wp_talks_service_labels = array (
 		'name' => 'Services',
 		'singular_name' => 'Service',
 		'search_items' => 'Search Services',
@@ -53,9 +53,9 @@ function oikos_talks_setup () {
 		'add_or_remove_items' => 'Add or Remove Services',
 		'choose_from_most_used' => 'Choose from most frequent services'
 		);
-	register_taxonomy( 'oikos_talks_service', 'oikos_talks', array( 'labels' => $oikos_talks_service_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/service' ) ) );
+	register_taxonomy( 'wp_talks_service', 'wp_talks', array( 'labels' => $wp_talks_service_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/service' ) ) );
 
-	$oikos_talks_topic_labels = array (
+	$wp_talks_topic_labels = array (
 		'name' => 'Topics',
 		'singular_name' => 'Topic',
 		'search_items' => 'Search Topics',
@@ -71,9 +71,9 @@ function oikos_talks_setup () {
 		'add_or_remove_items' => 'Add or Remove Topics',
 		'choose_from_most_used' => 'Choose from most frequent topics'
 		);
-	register_taxonomy( 'oikos_talks_topic', 'oikos_talks', array( 'labels' => $oikos_talks_topic_labels, 'rewrite' => array ( 'slug' => 'talks/topic' ) ) );
+	register_taxonomy( 'wp_talks_topic', 'wp_talks', array( 'labels' => $wp_talks_topic_labels, 'rewrite' => array ( 'slug' => 'talks/topic' ) ) );
 
-	$oikos_talks_post_type_labels = array (
+	$wp_talks_post_type_labels = array (
 		'name' => 'Talks',
 		'singular_name' => 'Talk',
 		'add_new' => 'Add New Talk',
@@ -85,21 +85,21 @@ function oikos_talks_setup () {
 		'not_found' => 'No talks found',
 		'not_found_in_trash' => 'No talks found in trash'
 	);
-	$oikos_talks_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail');
-	$oikos_talks_post_type_args= array (
+	$wp_talks_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail');
+	$wp_talks_post_type_args= array (
 		'label' => 'Talks',
-		'labels' => $oikos_talks_post_type_labels,
+		'labels' => $wp_talks_post_type_labels,
 		'description' => 'List of Talks/Sermons',
 		'public' => true,
-		'supports' => $oikos_talks_post_type_supports,
+		'supports' => $wp_talks_post_type_supports,
 		'hierarchical' => false,
 		'has_archive' => true,
 		'menu_icon' => 'dashicons-testimonial',
 		'rewrite' => array( 'slug' => 'talks')
 	);
-	register_post_type( 'oikos_talks', $oikos_talks_post_type_args );
+	register_post_type( 'wp_talks', $wp_talks_post_type_args );
 
-	$oikos_talk_series_post_type_labels = array (
+	$wp_talk_series_post_type_labels = array (
 		'name' => 'Talk Series',
 		'singular_name' => 'Talk Series',
 		'add_new' => 'Add New Talk Series',
@@ -111,41 +111,41 @@ function oikos_talks_setup () {
 		'not_found' => 'No talk series found',
 		'not_found_in_trash' => 'No talk series found in trash'
 	);
-	$oikos_talk_series_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail');
-	$oikos_talk_series_post_type_args= array (
+	$wp_talk_series_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail');
+	$wp_talk_series_post_type_args= array (
 		'label' => 'Talk series',
-		'labels' => $oikos_talk_series_post_type_labels,
+		'labels' => $wp_talk_series_post_type_labels,
 		'description' => 'List of Talk/Sermon Series',
 		'public' => true,
-		'supports' => $oikos_talk_series_post_type_supports,
+		'supports' => $wp_talk_series_post_type_supports,
 		'hierarchical' => false,
 		'has_archive' => true,
 		'menu_icon' => 'dashicons-format-chat',
 		'rewrite' => array( 'slug' => 'talk-series')
 	);
-	register_post_type( 'oikos_talk_series', $oikos_talk_series_post_type_args );
+	register_post_type( 'wp_talk_series', $wp_talk_series_post_type_args );
 	
-	add_shortcode( 'talks', 'get_oikos_talks');
+	add_shortcode( 'talks', 'get_wp_talks');
 	
-	wp_enqueue_style( 'oikos_talks', '/wp-content/plugins/oikos-talks/css/talks.css' );
+	wp_enqueue_style( 'wp_talks', '/wp-content/plugins/wp-talks/css/talks.css' );
 
 }
 
-add_action ( 'init', 'oikos_talks_setup');
+add_action ( 'init', 'wp_talks_setup');
 
-function oikos_talks_script() {
+function wp_talks_script() {
 ?>
 		<script type="text/javascript">
 			//<![CDATA[
 			jQuery(document).ready( function () {
 				// Where talks are present add a little hover-over note for download links
-				jQuery('div.oikos-talks-download').append(
-					'<div class="oikos-talks-download-note">Please note that you may have to right-click and select "Save link as..." to save this to your computer</div>'
-					).hover(function () { jQuery(this).children('.oikos-talks-download-note').fadeToggle('fast'); } );
+				jQuery('div.wp-talks-download').append(
+					'<div class="wp-talks-download-note">Please note that you may have to right-click and select "Save link as..." to save this to your computer</div>'
+					).hover(function () { jQuery(this).children('.wp-talks-download-note').fadeToggle('fast'); } );
 				// Make show more links work on talks
 				// Use the 'other-text' data item to switch the label on the link
-				jQuery('a.oikos-talks-more').data('other-text', 'Less detail').click(function () {
-					jQuery(this).siblings('.oikos-talks-hidden-meta').slideToggle('fast');
+				jQuery('a.wp-talks-more').data('other-text', 'Less detail').click(function () {
+					jQuery(this).siblings('.wp-talks-hidden-meta').slideToggle('fast');
 					newText=jQuery(this).data('other-text');
 					oldText=jQuery(this).html();
 					jQuery(this).data('other-text', oldText); 
@@ -165,7 +165,7 @@ function oikos_talks_script() {
  *  - the list of topics, complete with links, as formatted by get_the_term_list)
  *  - the thumbnail output markup (an img tag!)
  */
-function oikos_talks_format_talk ( $audio_url, $content, $speakers, $services, $topics, $thumbnail='' ) {
+function wp_talks_format_talk ( $audio_url, $content, $speakers, $services, $topics, $thumbnail='' ) {
 
 	// Set up the variables/data to output
 
@@ -188,25 +188,25 @@ function oikos_talks_format_talk ( $audio_url, $content, $speakers, $services, $
 		}
 
 		$output = <<<EOT
-					<div class="oikos-talks-details">
-						<div class="oikos-talks-content">
+					<div class="wp-talks-details">
+						<div class="wp-talks-content">
 							$content
-						</div><!-- .oikos-talks-content -->
-						<div class="oikos-talks-meta">
-							<a class="oikos-talks-more">More detail</a>
-							<div class="oikos-talks-hidden-meta">
+						</div><!-- .wp-talks-content -->
+						<div class="wp-talks-meta">
+							<a class="wp-talks-more">More detail</a>
+							<div class="wp-talks-hidden-meta">
 								<p>Talk by $speakers
 								in $services service</p>
 								<p>Talk topics: $topics</p>
-							</div><!-- .oikos-talks-hidden-meta -->
-						</div><!-- .oikos-talks-meta -->
-					</div><!-- .oikos-talks-details -->
-					<div class="oikos-talks-audio">
-						<div class="oikos-talks-audio-player">
+							</div><!-- .wp-talks-hidden-meta -->
+						</div><!-- .wp-talks-meta -->
+					</div><!-- .wp-talks-details -->
+					<div class="wp-talks-audio">
+						<div class="wp-talks-audio-player">
 							$audio_player_output
-							<div class="oikos-talks-download"><a href="$audio_url">Download talk</a></div>
-						</div><!-- oikos-talks-audio-player -->
-					</div><!-- .oikos-talks-audio -->
+							<div class="wp-talks-download"><a href="$audio_url">Download talk</a></div>
+						</div><!-- wp-talks-audio-player -->
+					</div><!-- .wp-talks-audio -->
 EOT;
 	} else {
 		$output = "";
@@ -226,30 +226,30 @@ EOT;
  * the function will print content using the_content()
  *
  * Note that the function only uses the talk formatting if the current post in the loop
- * is of type 'oikos_talks'.
+ * is of type 'wp_talks'.
  *
  * This function is designed to be used either as a filter on the_content or inside the
  * loop in a template file.
  */
 
-function oikos_talks_get_talk ( $content = null ) {
+function wp_talks_get_talk ( $content = null ) {
 	
 	global $post;
 		
-	if ( is_singular() && get_post_type() == 'oikos_talks' ) {
+	if ( is_singular() && get_post_type() == 'wp_talks' ) {
 
 		$talk_content = is_null($content) ? get_the_content() : $content;
-		$talk_url = get_post_meta($post->ID, '_oikos_talks_audio_url', true);
-		$talk_speakers = get_the_term_list($post->ID, 'oikos_talks_speaker', '', ', ', '' );
-		$talk_services = get_the_term_list($post->ID, 'oikos_talks_service', '', ', ', '' );
-		$talk_topics = get_the_term_list ( $post->ID, 'oikos_talks_topic', '', ', ', '' );
+		$talk_url = get_post_meta($post->ID, '_wp_talks_audio_url', true);
+		$talk_speakers = get_the_term_list($post->ID, 'wp_talks_speaker', '', ', ', '' );
+		$talk_services = get_the_term_list($post->ID, 'wp_talks_service', '', ', ', '' );
+		$talk_topics = get_the_term_list ( $post->ID, 'wp_talks_topic', '', ', ', '' );
 		if (has_post_thumbnail($post->ID)) {
 			$thumbnail = get_the_post_thumbnail($post->ID, 'medium' );
 		}
 
 		// Add the jQuery script to the footer
-		add_action( 'wp_footer', 'oikos_talks_script' );
-		return oikos_talks_format_talk( $talk_url, $talk_content, $talk_speakers, $talk_services, $talk_topics, $thumbnail);
+		add_action( 'wp_footer', 'wp_talks_script' );
+		return wp_talks_format_talk( $talk_url, $talk_content, $talk_speakers, $talk_services, $talk_topics, $thumbnail);
 
 	} else {
 
@@ -258,7 +258,7 @@ function oikos_talks_get_talk ( $content = null ) {
 	}
 } 
 
-add_filter ('the_content', 'oikos_talks_get_talk' );
+add_filter ('the_content', 'wp_talks_get_talk' );
 
 /*
  * This function gets the list of talks in a pre-set (but stylable) format.
@@ -266,44 +266,44 @@ add_filter ('the_content', 'oikos_talks_get_talk' );
  * "talks" that was registered above.
  *  
  */
-function get_oikos_talks ($attrs) {
+function get_wp_talks ($attrs) {
 	
 	global $post;
 	
 	$original_post = $post;
 	
-	$talks = new WP_Query( array( 'post_type' => 'oikos_talks' ) );
+	$talks = new WP_Query( array( 'post_type' => 'wp_talks' ) );
 
 	// We might have the filter on the_content set, so remove it and re-instate it later.
-	remove_filter('the_content', 'oikos_talks_get_talk' );
+	remove_filter('the_content', 'wp_talks_get_talk' );
 	
 	if ( $talks->have_posts() ) :
 ?>
 
-		<div class="oikos-talks">
+		<div class="wp-talks">
 
 <?php		while ( $talks->have_posts() ) : $talks->the_post(); ?>
 
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<div class="oikos-talks-date"><?php the_date( "F j, Y", "<div class=\"talks-timestamp\">", "</div>" ); ?></div>
-					<div class="oikos-talks-details">
-						<h2 class="entry-title oikos-talks-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr( 'Permalink to %s' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
-						<div class="oikos-talks-content">
+					<div class="wp-talks-date"><?php the_date( "F j, Y", "<div class=\"talks-timestamp\">", "</div>" ); ?></div>
+					<div class="wp-talks-details">
+						<h2 class="entry-title wp-talks-title"><a href="<?php the_permalink(); ?>" title="<?php printf( esc_attr( 'Permalink to %s' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+						<div class="wp-talks-content">
 							<?php echo get_the_content(); ?>
-						</div><!-- .oikos-talks-content -->
-						<div class="oikos-talks-meta">
-							<a class="oikos-talks-more">More detail</a>
-							<div class="oikos-talks-hidden-meta">
-								<p><?php the_terms($post->ID, 'oikos_talks_speaker', 'Talk by ', ', ', ''); ?>
-								<?php the_terms($post->ID, 'oikos_talks_service', ' in ', ', ', ' service'); ?></p>
-								<p><?php the_terms($post->ID, 'oikos_talks_topic', 'Talk topics: ', ', ', ''); ?></p>
-							</div><!-- .oikos-talks-hidden-meta -->
-						</div><!-- .oikos-talks-meta -->
-					</div><!-- .oikos-talks-details -->
-					<div class="oikos-talks-audio">
-						<div class="oikos-talks-audio-player">
+						</div><!-- .wp-talks-content -->
+						<div class="wp-talks-meta">
+							<a class="wp-talks-more">More detail</a>
+							<div class="wp-talks-hidden-meta">
+								<p><?php the_terms($post->ID, 'wp_talks_speaker', 'Talk by ', ', ', ''); ?>
+								<?php the_terms($post->ID, 'wp_talks_service', ' in ', ', ', ' service'); ?></p>
+								<p><?php the_terms($post->ID, 'wp_talks_topic', 'Talk topics: ', ', ', ''); ?></p>
+							</div><!-- .wp-talks-hidden-meta -->
+						</div><!-- .wp-talks-meta -->
+					</div><!-- .wp-talks-details -->
+					<div class="wp-talks-audio">
+						<div class="wp-talks-audio-player">
 						<?php
-							$audio_url = get_post_meta($post->ID, '_oikos_talks_audio_url', true);
+							$audio_url = get_post_meta($post->ID, '_wp_talks_audio_url', true);
 							if ($audio_url) :
 								global $wp_version;
 								$version_bits = explode('.', $wp_version);
@@ -316,12 +316,12 @@ function get_oikos_talks ($attrs) {
 									endif;
 								}
 						?>
-								<div class="oikos-talks-download"><a href="<?php echo $audio_url; ?>">Download talk</a></div>
+								<div class="wp-talks-download"><a href="<?php echo $audio_url; ?>">Download talk</a></div>
 						<?php
 							endif;
 						?>
-						</div><!-- oikos-talks-audio-player -->
-					</div><!-- .oikos-talks-audio -->
+						</div><!-- wp-talks-audio-player -->
+					</div><!-- .wp-talks-audio -->
 					<div style="clear:both; height: 0;"></div>
 				</div><!-- post -->
 <?php
@@ -331,13 +331,13 @@ function get_oikos_talks ($attrs) {
 			//<![CDATA[
 			jQuery(document).ready( function () {
 				// Where talks are present add a little hover-over note for download links
-				jQuery('div.oikos-talks-download').append(
-					'<div class="oikos-talks-download-note">Please note that you may have to right-click and select "Save link as..." to save this to your computer</div>'
-					).hover(function () { jQuery(this).children('.oikos-talks-download-note').fadeToggle('fast'); } );
+				jQuery('div.wp-talks-download').append(
+					'<div class="wp-talks-download-note">Please note that you may have to right-click and select "Save link as..." to save this to your computer</div>'
+					).hover(function () { jQuery(this).children('.wp-talks-download-note').fadeToggle('fast'); } );
 				// Make show more links work on talks
 				// Use the 'other-text' data item to switch the label on the link
-				jQuery('a.oikos-talks-more').data('other-text', 'Less detail').click(function () {
-					jQuery(this).siblings('.oikos-talks-hidden-meta').slideToggle('fast');
+				jQuery('a.wp-talks-more').data('other-text', 'Less detail').click(function () {
+					jQuery(this).siblings('.wp-talks-hidden-meta').slideToggle('fast');
 					newText=jQuery(this).data('other-text');
 					oldText=jQuery(this).html();
 					jQuery(this).data('other-text', oldText); 
@@ -346,12 +346,12 @@ function get_oikos_talks ($attrs) {
 			} );
 			// ]]>
 		</script>
-		</div><!-- .oikos-talks -->
+		</div><!-- .wp-talks -->
 <?php
 	endif;
 
 	// Re-instate the filter on the_content.
-	add_filter('the_content', 'oikos_talks_get_talk' );
+	add_filter('the_content', 'wp_talks_get_talk' );
 
 	
 	$post = $original_post;
@@ -366,32 +366,32 @@ function get_oikos_talks ($attrs) {
  *
  */
 
-function oikos_talks_print_meta_box($post)
+function wp_talks_print_meta_box($post)
 {
 	
-	$currentValue = get_post_meta($post->ID, '_oikos_talks_audio_url', true);
-	$currentSeries = get_post_meta($post->ID, '_oikos_talks_series');
+	$currentValue = get_post_meta($post->ID, '_wp_talks_audio_url', true);
+	$currentSeries = get_post_meta($post->ID, '_wp_talks_series');
 	if (! is_array($currentSeries)) {
 		$currentSeries = array();
 	}
 ?>
 	<p>
-		<label for="oikos_talks_audio_url">Audio File Location:</label><br>
-        <input id="oikos_talks_audio_url" type="text" name="oikos_talks_audio_url" size="80" maxlength="255" value="<?php echo $currentValue; ?>">
-		<input id="oikos_talks_audio_url_select" class="button" type="button" value="Select Audio" name="oikos_talks_audio_button" />
+		<label for="wp_talks_audio_url">Audio File Location:</label><br>
+        <input id="wp_talks_audio_url" type="text" name="wp_talks_audio_url" size="80" maxlength="255" value="<?php echo $currentValue; ?>">
+		<input id="wp_talks_audio_url_select" class="button" type="button" value="Select Audio" name="wp_talks_audio_button" />
     </p>
     <p>
-    	<label for="oikos_talks_series[]">Series:</label><br>
+    	<label for="wp_talks_series[]">Series:</label><br>
 		<?php
 			$series = get_posts(array(
-									'post_type' => 'oikos_talk_series',
+									'post_type' => 'wp_talk_series',
 									'posts_per_page' => -1,
 									'order_by' => 'title',
 									'order' => 'ASC')
 								);
 			if (is_array($series) && !empty($series)) {
 		?>
-    			<select id="oikos_talks_series_select" name="oikos_talks_series[]" multiple="true">
+    			<select id="wp_talks_series_select" name="wp_talks_series[]" multiple="true">
     				<?php
 	    				foreach($series as $this_series) {
 	    					if (in_array($this_series->ID, $currentSeries)) {
@@ -413,18 +413,18 @@ function oikos_talks_print_meta_box($post)
 }
 
 // This adds the jQuery for making the audio select button launch the media selector thickbox.
-function oikos_talks_meta_scripts() {
+function wp_talks_meta_scripts() {
 ?>
 	<script>
 		jQuery(document).ready( function () {
 			var postType = jQuery('#post_type').val();
-			if (postType == 'oikos_talks') {
+			if (postType == 'wp_talks') {
 
-				jQuery('#oikos_talks_audio_url_select').click( function () {
+				jQuery('#wp_talks_audio_url_select').click( function () {
 					var postID = jQuery('#post_ID').val();
 					window.send_to_editor = function (html) {
 						audiourl = jQuery(html).attr('href');
-						jQuery('#oikos_talks_audio_url').val(audiourl);
+						jQuery('#wp_talks_audio_url').val(audiourl);
 						tb_remove();
 					}
 					tb_show('', 'media-upload.php?post_id=' + postID + '&type=audio&TB_iframe=true');
@@ -438,10 +438,10 @@ function oikos_talks_meta_scripts() {
 <?php
 }
 
-function oikos_talks_save_meta_data( $postId )
+function wp_talks_save_meta_data( $postId )
 {
 	
-	if ( 'oikos_talks' ==  $_POST['post_type'] ) {    
+	if ( 'wp_talks' ==  $_POST['post_type'] ) {    
 		if (  !current_user_can( 'edit_page', $post_id ))    
 			return  $post_id;    
 	}
@@ -450,48 +450,48 @@ function oikos_talks_save_meta_data( $postId )
     	return $postId;
 	}
 	
-	$data = $_POST['oikos_talks_audio_url'];
+	$data = $_POST['wp_talks_audio_url'];
 		
 	// Should validate URL in here - note: can be full URL or partial path!
 	
-	if (get_post_meta( $postId, '_oikos_talks_audio_url') == "")
+	if (get_post_meta( $postId, '_wp_talks_audio_url') == "")
 	{
-		add_post_meta( $postId, '_oikos_talks_audio_url', $data, true);
-	} elseif ( $data != get_post_meta( $postId, '_oikos_talks_audio_url' ) ) {
-		update_post_meta( $postId, '_oikos_talks_audio_url', $data );
+		add_post_meta( $postId, '_wp_talks_audio_url', $data, true);
+	} elseif ( $data != get_post_meta( $postId, '_wp_talks_audio_url' ) ) {
+		update_post_meta( $postId, '_wp_talks_audio_url', $data );
 	} elseif ( $data == "" ) {
-		delete_post_meta( $postId, '_oikos_talks_audio_url', get_post_meta( $postId, '_oikos_talks_audio_url'	, true) );
+		delete_post_meta( $postId, '_wp_talks_audio_url', get_post_meta( $postId, '_wp_talks_audio_url'	, true) );
 	}
 
-	if (isset($_POST['oikos_talks_series'])) {
-		$series = $_POST['oikos_talks_series'];
+	if (isset($_POST['wp_talks_series'])) {
+		$series = $_POST['wp_talks_series'];
 	} else {
 		$series = array();
 	}
-	delete_post_meta($postId, '_oikos_talks_series');
+	delete_post_meta($postId, '_wp_talks_series');
 	if (!empty($series)) {
 		foreach($series as $this_series_id) {
-			add_post_meta( $postId, '_oikos_talks_series', $this_series_id, false);
+			add_post_meta( $postId, '_wp_talks_series', $this_series_id, false);
 		}
 	}
 }
 
-function oikos_talks_create_meta_box() 
+function wp_talks_create_meta_box() 
 {
 	if (function_exists('add_meta_box')) {
-		add_meta_box('talks-meta', "Audio File Location", 'oikos_talks_print_meta_box', 'oikos_talks', 'normal', 'high', '');
+		add_meta_box('talks-meta', "Audio File Location", 'wp_talks_print_meta_box', 'wp_talks', 'normal', 'high', '');
 	}
 }
 
-add_action('admin_menu',  'oikos_talks_create_meta_box');
-add_action('admin_head', 'oikos_talks_meta_scripts');
-add_action('save_post',  'oikos_talks_save_meta_data');
+add_action('admin_menu',  'wp_talks_create_meta_box');
+add_action('admin_head', 'wp_talks_meta_scripts');
+add_action('save_post',  'wp_talks_save_meta_data');
 
 /* This function checks for the existence of the Audio Player plugin and
  * adds a notice if the player does not exist.  Should be attached to the
  * 'admin_notices' action.
  */
-function oikos_talks_check_audio_plugin () {
+function wp_talks_check_audio_plugin () {
 	global $wp_version;
 	$version_bits = explode('.', $wp_version);
 	// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
@@ -499,13 +499,13 @@ function oikos_talks_check_audio_plugin () {
 		if ( ! function_exists('insert_audio_player') ) {
 ?>
 			<div id="message" class="error">
-				<p>The Oikos Talks plugin can't find the Audio Player Plugin. Audio Player needs to be installed and activated for Oikos Talks to work. Try <a href="<?php bloginfo( 'wpurl'); ?>/wp-admin/plugin-install.php?tab=search&type=term&s=audio+player">this plugin search</a></p>
+				<p>The WP Talks plugin can't find the Audio Player Plugin. Audio Player needs to be installed and activated for WP Talks to work. Try <a href="<?php bloginfo( 'wpurl'); ?>/wp-admin/plugin-install.php?tab=search&type=term&s=audio+player">this plugin search</a></p>
 			</div>
 <?php 
 		}
 	}
 }
 
-add_action('admin_notices', 'oikos_talks_check_audio_plugin')
+add_action('admin_notices', 'wp_talks_check_audio_plugin')
 
 ?>

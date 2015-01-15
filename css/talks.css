@@ -1,50 +1,50 @@
-div.oikos-talks {
+div.wp-talks {
 	clear: both;
 	background-color: #FFF;
 	margin-bottom: 10px;
 	padding: 5px;
 }
-div.oikos-talks-details {
+div.wp-talks-details {
 	width: 50%;
 	float: left;
 }
-div.oikos-talks-audio {
+div.wp-talks-audio {
 	width: 50%;
 	float: right;
 }
-div.oikos-talks-timestamp {
+div.wp-talks-timestamp {
 	border-bottom: 1px solid #003366;
 	margin-bottom: 10px;
 	margin-top: 15px;
 	clear: both;
 }
-a.oikos-talks-more {
+a.wp-talks-more {
 	font-size: 12px;
 }
-a.oikos-talks-more:hover {
+a.wp-talks-more:hover {
 	cursor: pointer;
 }
-.oikos-talks-meta {
+.wp-talks-meta {
 	font-size: 12px;
 }
-.oikos-talks-hidden-meta {
+.wp-talks-hidden-meta {
 	display: none;
 }
-.oikos-talks-title{
+.wp-talks-title{
 	margin: 0;
 	padding-top: 0;
 }
-.oikos-talks-content{
+.wp-talks-content{
 }
-.oikos-talks-audio-player{
+.wp-talks-audio-player{
 	float: right;
 }
-.oikos-talks-download{
+.wp-talks-download{
 	font-size: 12px;
 	position: relative; /* Allows position: absolute on the note */
 	top: 60px;
 }
-.oikos-talks-download-note{
+.wp-talks-download-note{
 	display: none;
 	font-size: 12px;
 	background-color: #F4F4F4;
