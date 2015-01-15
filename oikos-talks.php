@@ -93,7 +93,7 @@ function oikos_talks_setup () {
 		'supports' => $oikos_talks_post_type_supports,
 		'hierarchical' => false,
 		'has_archive' => true,
-		'menu_icon' => get_bloginfo('wpurl') . "/wp-content/plugins/oikos-talks/images/talks-menu-icon.png",
+		'menu_icon' => 'dashicons-testimonial',
 		'rewrite' => array( 'slug' => 'talks')
 	);
 	register_post_type( 'oikos_talks', $oikos_talks_post_type_args );
