@@ -59,5 +59,9 @@ Add features images in output and fix output bugs - internal release only
 
 Add post series - internal release only
 
+= 0.2.4 =
+
+Rename and prepped for public release - internal release only. Requires database changes!
+
 == Upgrade Notice ==
 
