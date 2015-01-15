@@ -36,7 +36,7 @@ function wp_talks_setup () {
 		'add_or_remove_items' => 'Add or Remove Speakers',
 		'choose_from_most_used' => 'Choose from most frequent speakers'
 		);
-	register_taxonomy( 'wp_talks_speaker', 'wp_talks', array( 'labels' => $wp_talks_speaker_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/speaker' ) ) );
+	register_taxonomy( 'wp_talks_speaker', 'wp_talks', array( 'labels' => $wp_talks_speaker_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/speaker' ), 'show_admin_column' => true ) );
 
 	$wp_talks_service_labels = array (
 		'name' => 'Services',
@@ -54,7 +54,7 @@ function wp_talks_setup () {
 		'add_or_remove_items' => 'Add or Remove Services',
 		'choose_from_most_used' => 'Choose from most frequent services'
 		);
-	register_taxonomy( 'wp_talks_service', 'wp_talks', array( 'labels' => $wp_talks_service_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/service' ) ) );
+	register_taxonomy( 'wp_talks_service', 'wp_talks', array( 'labels' => $wp_talks_service_labels, 'hierarchical' => true, 'rewrite' => array ( 'slug' => 'talks/service' ), 'show_admin_column' => true ) );
 
 	$wp_talks_topic_labels = array (
 		'name' => 'Topics',
@@ -72,7 +72,7 @@ function wp_talks_setup () {
 		'add_or_remove_items' => 'Add or Remove Topics',
 		'choose_from_most_used' => 'Choose from most frequent topics'
 		);
-	register_taxonomy( 'wp_talks_topic', 'wp_talks', array( 'labels' => $wp_talks_topic_labels, 'rewrite' => array ( 'slug' => 'talks/topic' ) ) );
+	register_taxonomy( 'wp_talks_topic', 'wp_talks', array( 'labels' => $wp_talks_topic_labels, 'rewrite' => array ( 'slug' => 'talks/topic' ), 'show_admin_column' => true ) );
 
 	$wp_talks_post_type_labels = array (
 		'name' => 'Talks',
@@ -86,7 +86,7 @@ function wp_talks_setup () {
 		'not_found' => 'No talks found',
 		'not_found_in_trash' => 'No talks found in trash'
 	);
-	$wp_talks_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail');
+	$wp_talks_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail', 'author');
 	$wp_talks_post_type_args= array (
 		'label' => 'Talks',
 		'labels' => $wp_talks_post_type_labels,
