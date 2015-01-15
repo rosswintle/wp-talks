@@ -1,6 +1,4 @@
-README.md
-
-* WP Talks
+# WP Talks
 
 This is a simple plugin for storing, organising and displaying audio of talks, presentations or sermons. It was developed for use in churches, but could have other uses too.
 
