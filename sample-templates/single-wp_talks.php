@@ -1,6 +1,6 @@
 <?php
 /**
- * The Template for displaying single talks from the oikos-talks plugin.
+ * The Template for displaying single talks from the wp-talks plugin.
  *
  */
 
