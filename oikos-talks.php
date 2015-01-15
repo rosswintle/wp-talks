@@ -3,7 +3,7 @@
 Plugin Name: Oikos Talks
 Plugin URI: http://oikos.org.uk/plugins/oikos-talks
 Description: Provides an interface for managing audio files of talks with options to categorise by service (intended for churches) and speaker, and to apply multiple "topics" tags.
-Version: 0.2.1
+Version: 0.2.2
 Author: Ross Wintle/Oikos
 Author URI: http://oikos.org.uk/
 
@@ -136,47 +136,58 @@ function oikos_talks_script() {
  *  - the list of speakers, complete with links, as formatted by get_the_term_list)
  *  - the list of services, complete with links, as formatted by get_the_term_list)
  *  - the list of topics, complete with links, as formatted by get_the_term_list)
+ *  - the thumbnail output markup (an img tag!)
  */
-function oikos_talks_format_talk ( $audio_url, $content, $speakers, $services, $topics ) {
-	
-?>
+function oikos_talks_format_talk ( $audio_url, $content, $speakers, $services, $topics, $thumbnail='' ) {
+
+	// Set up the variables/data to output
+
+	if ($audio_url) {
+		global $wp_version;
+		$version_bits = explode('.', $wp_version);
+		// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
+		$audio_player_output = '';
+		if ($version_bits >= 4 || ($version_bits[0] == 3 && $version_bits[1] >= 6)) {
+			$audio_player_output = do_shortcode('[audio src="' . $audio_url . '"]');
+		} else {
+			if (function_exists("insert_audio_player")) {
+				// This is copied from the source of the insert_audio_player function of
+				// the ancient plugin. See http://trac.assembla.com/1pixelout/browser/audio-player/trunk/plugin/audio-player.php
+				// We've copied this here because we don't want to echo the output, we want to collect it
+				// for later use.
+				global $AudioPlayer;
+				$audio_player_output = $AudioPlayer->processContent("[audio:$audio_url]");	
+			}
+		}
+
+		$output = <<<EOT
 					<div class="oikos-talks-details">
 						<div class="oikos-talks-content">
-							<?php echo $content; ?>
+							$content
 						</div><!-- .oikos-talks-content -->
 						<div class="oikos-talks-meta">
 							<a class="oikos-talks-more">More detail</a>
 							<div class="oikos-talks-hidden-meta">
-								<p>Talk by <?php echo $speakers; ?>
-								in <?php echo $services; ?> service</p>
-								<p>Talk topics: <?php echo $topics; ?></p>
+								<p>Talk by $speakers
+								in $services service</p>
+								<p>Talk topics: $topics</p>
 							</div><!-- .oikos-talks-hidden-meta -->
 						</div><!-- .oikos-talks-meta -->
 					</div><!-- .oikos-talks-details -->
 					<div class="oikos-talks-audio">
 						<div class="oikos-talks-audio-player">
-						<?php
-							if ($audio_url) :
-								global $wp_version;
-								$version_bits = explode('.', $wp_version);
-								// If we're greater than v3.6 then we have audio shortcode and mediaelement.js built in!
-								if ($version_bits >= 4 || ($version_bits[0] == 3 && $version_bits[1] >= 6)) {
-									echo do_shortcode('[audio src="' . $audio_url . '"]');
-								} else {
-									if (function_exists("insert_audio_player")) :
-										insert_audio_player("[audio:$audio_url]");
-									endif;
-								}
-						?>
-								<div class="oikos-talks-download"><a href="<?php echo $audio_url; ?>">Download talk</a></div>
-						<?php
-							endif;
-						?>
+							$audio_player_output
+							<div class="oikos-talks-download"><a href="$audio_url">Download talk</a></div>
 						</div><!-- oikos-talks-audio-player -->
 					</div><!-- .oikos-talks-audio -->
-<?php
-}
+EOT;
+	} else {
+		$output = "";
+	}
 
+	return $output;
+
+}
 
 /* This function prints a talk.  It must be used within a WordPress loop as it
  * depends on the $post variable being set.
@@ -198,19 +209,25 @@ function oikos_talks_get_talk ( $content = null ) {
 	
 	global $post;
 		
-	if ( get_post_type() != 'oikos_talks' ) {
-		return $content;
-	} else {
+	if ( is_singular() && get_post_type() == 'oikos_talks' ) {
 
 		$talk_content = is_null($content) ? get_the_content() : $content;
 		$talk_url = get_post_meta($post->ID, '_oikos_talks_audio_url', true);
 		$talk_speakers = get_the_term_list($post->ID, 'oikos_talks_speaker', '', ', ', '' );
 		$talk_services = get_the_term_list($post->ID, 'oikos_talks_service', '', ', ', '' );
 		$talk_topics = get_the_term_list ( $post->ID, 'oikos_talks_topic', '', ', ', '' );
+		if (has_post_thumbnail($post->ID)) {
+			$thumbnail = get_the_post_thumbnail($post->ID, 'medium' );
+		}
 
 		// Add the jQuery script to the footer
 		add_action( 'wp_footer', 'oikos_talks_script' );
-		return oikos_talks_format_talk( $talk_url, $talk_content, $talk_speakers, $talk_services, $talk_topics);
+		return oikos_talks_format_talk( $talk_url, $talk_content, $talk_speakers, $talk_services, $talk_topics, $thumbnail);
+
+	} else {
+
+		return $content;
+
 	}
 } 
 
