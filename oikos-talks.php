@@ -98,6 +98,31 @@ function oikos_talks_setup () {
 	);
 	register_post_type( 'oikos_talks', $oikos_talks_post_type_args );
 
+	$oikos_talk_series_post_type_labels = array (
+		'name' => 'Talk Series',
+		'singular_name' => 'Talk Series',
+		'add_new' => 'Add New Talk Series',
+		'add_new_item' => 'Add New Talk Series',
+		'edit_item' => 'Edit Talk Series',
+		'new_item' => 'New Talk Series',
+		'view_item' => 'View Talk Series',
+		'search_items' => 'Search Talk Seriess',
+		'not_found' => 'No talk series found',
+		'not_found_in_trash' => 'No talk series found in trash'
+	);
+	$oikos_talk_series_post_type_supports = array ( 'title', 'editor', 'revisions', 'page-attributes', 'thumbnail');
+	$oikos_talk_series_post_type_args= array (
+		'label' => 'Talk series',
+		'labels' => $oikos_talk_series_post_type_labels,
+		'description' => 'List of Talk/Sermon Series',
+		'public' => true,
+		'supports' => $oikos_talk_series_post_type_supports,
+		'hierarchical' => false,
+		'has_archive' => true,
+		'menu_icon' => 'dashicons-format-chat',
+		'rewrite' => array( 'slug' => 'talk-series')
+	);
+	register_post_type( 'oikos_talk_series', $oikos_talk_series_post_type_args );
 	
 	add_shortcode( 'talks', 'get_oikos_talks');
 	
@@ -344,12 +369,45 @@ function oikos_talks_print_meta_box($post)
 {
 	
 	$currentValue = get_post_meta($post->ID, '_oikos_talks_audio_url', true);
+	$currentSeries = get_post_meta($post->ID, '_oikos_talks_series');
+	if (! is_array($currentSeries)) {
+		$currentSeries = array();
+	}
 ?>
 	<p>
-		Audio File Location: 
+		<label for="oikos_talks_audio_url">Audio File Location:</label><br>
         <input id="oikos_talks_audio_url" type="text" name="oikos_talks_audio_url" size="80" maxlength="255" value="<?php echo $currentValue; ?>">
 		<input id="oikos_talks_audio_url_select" class="button" type="button" value="Select Audio" name="oikos_talks_audio_button" />
     </p>
+    <p>
+    	<label for="oikos_talks_series[]">Series:</label><br>
+		<?php
+			$series = get_posts(array(
+									'post_type' => 'oikos_talk_series',
+									'posts_per_page' => -1,
+									'order_by' => 'title',
+									'order' => 'ASC')
+								);
+			if (is_array($series) && !empty($series)) {
+		?>
+    			<select id="oikos_talks_series_select" name="oikos_talks_series[]" multiple="true">
+    				<?php
+	    				foreach($series as $this_series) {
+	    					if (in_array($this_series->ID, $currentSeries)) {
+	    						$selected = ' selected="selected"';
+	    					} else {
+	    						$selected = '';
+	    					}
+	    					printf('<option value="%1$d" %2$s>%3$s</option>', $this_series->ID, $selected, $this_series->post_title);
+	    				}
+	    			?>
+		    	</select>
+		<?php
+			} else {
+				echo "No series available.";
+			}
+		?>
+	</p>
 <?php
 }
 
@@ -402,6 +460,18 @@ function oikos_talks_save_meta_data( $postId )
 		update_post_meta( $postId, '_oikos_talks_audio_url', $data );
 	} elseif ( $data == "" ) {
 		delete_post_meta( $postId, '_oikos_talks_audio_url', get_post_meta( $postId, '_oikos_talks_audio_url'	, true) );
+	}
+
+	if (isset($_POST['oikos_talks_series'])) {
+		$series = $_POST['oikos_talks_series'];
+	} else {
+		$series = array();
+	}
+	delete_post_meta($postId, '_oikos_talks_series');
+	if (!empty($series)) {
+		foreach($series as $this_series_id) {
+			add_post_meta( $postId, '_oikos_talks_series', $this_series_id, false);
+		}
 	}
 }
 
