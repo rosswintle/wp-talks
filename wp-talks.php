@@ -375,7 +375,11 @@ function wp_talks_print_meta_box($post)
 	if (! is_array($currentSeries)) {
 		$currentSeries = array();
 	}
+
+	// Add an nonce field so we can check for it later.
+	wp_nonce_field( 'wp_talks_meta_box', 'wp_talks_meta_box_nonce' );
 ?>
+
 	<p>
 		<label for="wp_talks_audio_url">Audio File Location:</label><br>
         <input id="wp_talks_audio_url" type="text" name="wp_talks_audio_url" size="80" maxlength="255" value="<?php echo $currentValue; ?>">
@@ -442,10 +446,21 @@ function wp_talks_meta_scripts() {
 function wp_talks_save_meta_data( $postId )
 {
 	
-	if ( 'wp_talks' ==  $_POST['post_type'] ) {    
-		if (  !current_user_can( 'edit_page', $post_id ))    
-			return  $post_id;    
+	if ( isset($_POST['post_type']) && wp_talks ==  $_POST['post_type'] ) {    
+		if (  !current_user_can( 'edit_page', $postId ))    
+			return  $postId;    
 	}
+
+	// Check if our nonce is set.
+	if ( ! isset( $_POST['wp_talks_meta_box_nonce'] ) ) {
+		return;
+	}
+
+	// Verify that the nonce is valid.
+	if ( ! wp_verify_nonce( $_POST['wp_talks_meta_box_nonce'], 'wp_talks_meta_box' ) ) {
+		return;
+	}
+
 	/* No POST data for custom meta during auto save, so exit to prevent deleting the values */
 	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
     	return $postId;
@@ -507,6 +522,5 @@ function wp_talks_check_audio_plugin () {
 	}
 }
 
-add_action('admin_notices', 'wp_talks_check_audio_plugin')
+add_action('admin_notices', 'wp_talks_check_audio_plugin');
 
-?>
