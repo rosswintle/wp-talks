@@ -526,3 +526,27 @@ function wp_talks_check_audio_plugin () {
 
 add_action('admin_notices', 'wp_talks_check_audio_plugin');
 
+function oikos_talks_list_series_for_talk($talk_id) {
+	$series = get_post_meta($talk_id, '_wp_talks_series', false);
+	$series_names = array();
+	$result = "";
+	if (is_array($series) && !empty($series)) {
+		foreach ($series as $this_series_id) {
+			$series_names[] = get_the_title($this_series_id);
+		}
+	}
+	if (!empty($series_names)) {
+		$result = implode(' ', $series_names);
+	}
+	return $result;
+}
+
+include_once('lib/class_oikos_custom_columns.php');
+
+OikosCustomColumns::add_column('wp_talks', 'wp_talk_series', 'Series',
+	function () {
+		global $post;
+		$post_id = $post->ID;
+		echo oikos_talks_list_series_for_talk($post_id);
+	}
+);
