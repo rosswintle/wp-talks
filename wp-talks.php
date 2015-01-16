@@ -446,7 +446,7 @@ function wp_talks_meta_scripts() {
 function wp_talks_save_meta_data( $postId )
 {
 	
-	if ( isset($_POST['post_type']) && wp_talks ==  $_POST['post_type'] ) {    
+	if ( isset($_POST['post_type']) && 'wp_talks' ==  $_POST['post_type'] ) {    
 		if (  !current_user_can( 'edit_page', $postId ))    
 			return  $postId;    
 	}
