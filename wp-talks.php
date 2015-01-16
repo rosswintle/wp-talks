@@ -481,13 +481,15 @@ function wp_talks_save_meta_data( $postId )
 
 	if (isset($_POST['wp_talks_series'])) {
 		$series = $_POST['wp_talks_series'];
-	} else {
-		$series = array();
-	}
-	delete_post_meta($postId, '_wp_talks_series');
-	if (!empty($series)) {
-		foreach($series as $this_series_id) {
-			add_post_meta( $postId, '_wp_talks_series', $this_series_id, false);
+		if (! is_array($series)) {
+			$series = array();
+		}
+
+		delete_post_meta($postId, '_wp_talks_series');
+		if (!empty($series)) {
+			foreach($series as $this_series_id) {
+				add_post_meta( $postId, '_wp_talks_series', $this_series_id, false);
+			}
 		}
 	}
 }
