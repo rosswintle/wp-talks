@@ -63,5 +63,10 @@ Add post series - internal release only
 
 Rename and prepped for public release - internal release only. Requires database changes!
 
+= 0.2.5 =
+
+Squashed some bugs. Added a "Series" column to the Talks edit list.
+
+
 == Upgrade Notice ==
 
