@@ -3,7 +3,7 @@
 Plugin Name: WP Talks
 Plugin URI: http://oikos.org.uk/plugins/wp-talks
 Description: Provides an interface for managing audio files of talks with options to categorise by service (intended for churches) and speaker, and to apply multiple "topics" tags.
-Version: 0.2.5
+Version: 0.2.6
 Author: Ross Wintle/Oikos
 Author URI: http://oikos.org.uk/
 
@@ -16,6 +16,7 @@ Version history:
 0.2.3: Add post series
 0.2.4: Renamed and prepped for public release
 0.2.5: Squashed some bugs. Added a "Series" column to the Talks edit list.
+0.2.6: Minor styling fixes to output
 */
 
 

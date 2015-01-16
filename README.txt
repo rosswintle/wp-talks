@@ -67,6 +67,10 @@ Rename and prepped for public release - internal release only. Requires database
 
 Squashed some bugs. Added a "Series" column to the Talks edit list.
 
+= 0.2.6 =
+
+Minor styling fixes to output
+
 
 == Upgrade Notice ==
 
