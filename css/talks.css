@@ -4,6 +4,12 @@ div.wp-talks {
 	margin-bottom: 10px;
 	padding: 5px;
 }
+div.wp-talks-container:after {
+	/* This is a clearfix! */
+	content: "";
+	display: table;
+	clear: both;
+}
 div.wp-talks-details {
 	width: 50%;
 	float: left;
@@ -42,7 +48,6 @@ a.wp-talks-more:hover {
 .wp-talks-download{
 	font-size: 12px;
 	position: relative; /* Allows position: absolute on the note */
-	top: 60px;
 }
 .wp-talks-download-note{
 	display: none;

@@ -190,25 +190,27 @@ function wp_talks_format_talk ( $audio_url, $content, $speakers, $services, $top
 		}
 
 		$output = <<<EOT
-					<div class="wp-talks-details">
-						<div class="wp-talks-content">
-							$content
-						</div><!-- .wp-talks-content -->
-						<div class="wp-talks-meta">
-							<a class="wp-talks-more">More detail</a>
-							<div class="wp-talks-hidden-meta">
-								<p>Talk by $speakers
-								in $services service</p>
-								<p>Talk topics: $topics</p>
-							</div><!-- .wp-talks-hidden-meta -->
-						</div><!-- .wp-talks-meta -->
-					</div><!-- .wp-talks-details -->
-					<div class="wp-talks-audio">
-						<div class="wp-talks-audio-player">
-							$audio_player_output
-							<div class="wp-talks-download"><a href="$audio_url">Download talk</a></div>
-						</div><!-- wp-talks-audio-player -->
-					</div><!-- .wp-talks-audio -->
+					<div class="wp-talks-container">
+						<div class="wp-talks-details">
+							<div class="wp-talks-content">
+								$content
+							</div><!-- .wp-talks-content -->
+							<div class="wp-talks-meta">
+								<a class="wp-talks-more">More detail</a>
+								<div class="wp-talks-hidden-meta">
+									<p>Talk by $speakers
+									in $services service</p>
+									<p>Talk topics: $topics</p>
+								</div><!-- .wp-talks-hidden-meta -->
+							</div><!-- .wp-talks-meta -->
+						</div><!-- .wp-talks-details -->
+						<div class="wp-talks-audio">
+							<div class="wp-talks-audio-player">
+								$audio_player_output
+								<div class="wp-talks-download"><a href="$audio_url">Download talk</a></div>
+							</div><!-- wp-talks-audio-player -->
+						</div><!-- .wp-talks-audio -->
+					</div><!-- .wp-talks-container -->
 EOT;
 	} else {
 		$output = "";
