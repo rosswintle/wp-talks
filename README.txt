@@ -39,37 +39,37 @@ Yeah, I know. It's a bit basic at present, but I wanted to share progress so far
 
 == Changelog ==
 
-= 0.1 =
+= 0.2.6 =
 
-Initial release - internal only
-
-= 0.2 =
-
-Updates for WordPress 3.6's built in media functions - internal release only
-
-= 0.2.1 =
-
-Fix incorrect version checking - internal release only
-
-= 0.2.2 =
-
-Add features images in output and fix output bugs - internal release only
-
-= 0.2.3 =
-
-Add post series - internal release only
-
-= 0.2.4 =
-
-Rename and prepped for public release - internal release only. Requires database changes!
+Minor styling fixes to output. First public release.
 
 = 0.2.5 =
 
 Squashed some bugs. Added a "Series" column to the Talks edit list.
 
-= 0.2.6 =
+= 0.2.4 =
 
-Minor styling fixes to output
+Rename and prepped for public release - internal release only. Requires database changes!
+
+= 0.2.3 =
+
+Add post series - internal release only
+
+= 0.2.2 =
+
+Add features images in output and fix output bugs - internal release only
+
+= 0.2.1 =
+
+Fix incorrect version checking - internal release only
+
+= 0.2 =
+
+Updates for WordPress 3.6's built in media functions - internal release only
+
+= 0.1 =
+
+Initial release - internal only
 
 
 == Upgrade Notice ==

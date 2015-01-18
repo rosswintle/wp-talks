@@ -9,14 +9,14 @@ Author URI: http://oikos.org.uk/
 
 Version history:
 
-0.1: Initial release
-0.2: Updates for WordPress 3.6's built in media functions
-0.2.1: Fix incorrect version checking
-0.2.2: Add features images in output and fix output bugs
-0.2.3: Add post series
-0.2.4: Renamed and prepped for public release
-0.2.5: Squashed some bugs. Added a "Series" column to the Talks edit list.
 0.2.6: Minor styling fixes to output
+0.2.5: Squashed some bugs. Added a "Series" column to the Talks edit list.
+0.2.4: Renamed and prepped for public release
+0.2.3: Add post series
+0.2.2: Add features images in output and fix output bugs
+0.2.1: Fix incorrect version checking
+0.2: Updates for WordPress 3.6's built in media functions
+0.1: Initial release
 */
 
 
